@@ -1,0 +1,37 @@
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+processors:
+  - add_cloud_metadata: ~
+  - add_docker_metadata: ~
+
+setup.kibana:
+  host: "kibana:5601"
+
+# kibana 索引模式
+setup.dashboards.index: "logstash-filebeat*"
+
+#output.elasticsearch:
+#  hosts: '${ELASTICSEARCH_HOSTS:elasticsearch:9200}'
+#  username: '${ELASTICSEARCH_USERNAME:}'
+#  password: '${ELASTICSEARCH_PASSWORD:}'
+
+
+# ------------------------------ Logstash Output -------------------------------
+output.logstash:
+  enabled: true
+  hosts: ["logstash:5044"]
+#  index: 'filebeat'
+
+## 输入
+#filebeat.inputs:
+## 标准输入
+#  - type: stdin
+#    enabled: true
+#
+## 输出到控制台
+#output.console:
+#  pretty: true
+#  enable: true
