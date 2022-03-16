@@ -11,6 +11,7 @@ services:
   filebeat:
     image: elastic/filebeat:7.17.0
     container_name: filebeat
+    user: root #收集容器日志时才需要
     restart: always
     tty: true
     environment:
@@ -21,6 +22,8 @@ services:
       - ../apps/filebeat/data:/usr/share/filebeat/data
       - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
       - ./filebeat/modules.d/nginx.yml:/usr/share/filebeat/modules.d/nginx.yml
+      - ./filebeat/inputs.d:/usr/share/filebeat/inputs.d
+      - /var/lib/docker/containers:/var/lib/docker/containers
       - ../log/nginx:/var/log/nginx
     networks:
       - server_web-network
